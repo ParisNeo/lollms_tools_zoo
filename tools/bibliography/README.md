@@ -1,307 +1,318 @@
-# Bibliography & Research Tools
+# Bibliography Tools
 
-A comprehensive collection of tools for academic research, bibliography management, and scholarly communication. This toolset provides integrations with major academic databases and reference management systems.
+Comprehensive academic research and bibliography management tools for LCP.
 
 ## Overview
 
-The Bibliography Tools enable automated literature discovery, citation management, and reference organization. Whether you're conducting a systematic review, managing a research library, or generating citations for publications, these tools streamline your academic workflow.
+This category provides tools for searching, retrieving, and managing academic papers from multiple sources including arXiv, Google Scholar, Semantic Scholar, CrossRef, and Zotero. It supports the full research workflow from discovery to citation management.
 
-## Sub-Toolsets
+## Toolsets
 
-| Toolset | Description | API Key Required |
-|---------|-------------|------------------|
-| [arXiv Tools](arxiv/README.md) | Search, download, and organize papers from arXiv.org | No |
-| [DOI Tools](doi/README.md) | Resolve DOIs, fetch Crossref metadata, generate citations | Optional |
-| [Zotero Tools](zotero/README.md) | Integrate with Zotero reference manager (local & remote) | Yes (remote only) |
+### 📚 [arXiv Tools](arxiv/README.md)
+Search and download preprints from arXiv.org
+
+**Key Features:**
+- Search 2M+ preprints across physics, math, CS, and more
+- Download PDFs and source files
+- Get detailed metadata including authors, abstracts, and categories
+- Track paper versions and updates
+
+**Use Cases:** Preprint discovery, early access to research, arXiv paper management
+
+---
+
+### 🎓 [Google Scholar Tools](google_scholar/README.md)
+Search and analyze papers using Google Scholar
+
+**Key Features:**
+- Search Google Scholar's vast database
+- Get citation counts and author metrics
+- Find papers by author
+- Access author profiles with h-index
+
+**Use Cases:** Citation analysis, author metrics, comprehensive literature search
+
+**Note:** No API key required, but has rate limits
+
+---
+
+### 🔬 [Semantic Scholar Tools](semantic_scholar/README.md)
+Search and analyze papers using the Semantic Scholar API
+
+**Key Features:**
+- Search 200M+ papers with rich metadata
+- Explore citation graphs (citations and references)
+- Get author details and metrics
+- Access abstracts and open access PDFs
+
+**Use Cases:** Citation graph analysis, author impact analysis, research trends
+
+**Note:** Free API with 100 requests per 5 minutes
+
+---
+
+### 📖 [CrossRef Tools](crossref/README.md)
+Search and resolve DOIs using the CrossRef API
+
+**Key Features:**
+- Search 140M+ academic works
+- Resolve DOIs to full metadata
+- Search by author, title, journal, or funder
+- Get citation counts and references
+
+**Use Cases:** DOI resolution, journal analysis, funding tracking
+
+**Note:** Official DOI registration agency, no API key required
+
+---
+
+### 🔗 [DOI Tools](doi/README.md)
+Resolve and validate DOIs
+
+**Key Features:**
+- Resolve DOIs to metadata
+- Validate DOI format
+- Extract DOI from URLs
+- Get citation information
+
+**Use Cases:** DOI validation, metadata extraction, citation formatting
+
+---
+
+### 📁 [Zotero Tools](zotero/README.md)
+Manage your Zotero library
+
+**Key Features:**
+- Search local Zotero database
+- Add items to Zotero
+- Export citations in multiple formats
+- Sync with Zotero cloud (optional)
+
+**Use Cases:** Reference management, citation export, library organization
+
+**Note:** Local mode requires no API key, cloud mode requires Zotero API key
+
+---
 
 ## Quick Start
 
-### 1. Installation
-
-Install the required dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Or install individual toolset dependencies:
-
-```bash
-# For arXiv tools
-pip install arxiv requests
-
-# For DOI tools
-pip install requests habanero
-
-# For Zotero tools
-pip install pyzotero requests
-```
-
-### 2. Configuration
-
-Copy the example environment file and configure your API keys:
-
-```bash
-cp .env.example .env
-```
-
-Edit `.env` with your actual API keys and preferences. See the [Configuration](#configuration) section below for details.
-
-### 3. Basic Usage
+### 1. Search for Papers
 
 ```python
-# Search arXiv for papers
-from arxiv.arxiv_tools import search_arxiv
-papers = search_arxiv("machine learning", max_results=5)
+# Search arXiv
+from arxiv.arxiv_tools import tool_search_arxiv
+result = tool_search_arxiv("transformer models", max_results=10)
 
-# Resolve a DOI
-from doi.doi_tools import resolve_doi
-metadata = resolve_doi("10.1038/nature12373")
+# Search Google Scholar
+from google_scholar.google_scholar_tools import tool_search_google_scholar
+result = tool_search_google_scholar("transformer models", num_results=10)
 
-# Search Zotero library
-from zotero.zotero_tools import ZoteroRemote
-zotero = ZoteroRemote(api_key="...", user_id="...")
-items = zotero.search("neural networks")
+# Search Semantic Scholar
+from semantic_scholar.semantic_scholar_tools import tool_search_semantic_scholar
+result = tool_search_semantic_scholar("transformer models", num_results=10)
+
+# Search CrossRef
+from crossref.crossref_tools import tool_search_crossref
+result = tool_search_crossref("transformer models", num_results=10)
+```
+
+### 2. Get Paper Details
+
+```python
+# By DOI (CrossRef)
+from crossref.crossref_tools import tool_get_work_by_doi
+result = tool_get_work_by_doi("10.1038/nature14539")
+
+# By DOI (Semantic Scholar)
+from semantic_scholar.semantic_scholar_tools import tool_get_paper_details
+result = tool_get_paper_details("DOI:10.1038/nature14539")
+
+# By arXiv ID
+from arxiv.arxiv_tools import tool_get_arxiv_paper
+result = tool_get_arxiv_paper("2106.15928")
+```
+
+### 3. Analyze Citations
+
+```python
+# Get citations (Semantic Scholar)
+from semantic_scholar.semantic_scholar_tools import tool_get_paper_citations
+result = tool_get_paper_citations("DOI:10.1038/nature14539", num_results=20)
+
+# Get citation count (Google Scholar)
+from google_scholar.google_scholar_tools import tool_get_scholar_citations
+result = tool_get_scholar_citations("Attention is all you need", "Vaswani")
+```
+
+### 4. Author Analysis
+
+```python
+# Search authors (Semantic Scholar)
+from semantic_scholar.semantic_scholar_tools import tool_search_authors
+result = tool_search_authors("Yann LeCun")
+
+# Get author profile (Google Scholar)
+from google_scholar.google_scholar_tools import tool_get_scholar_profile
+result = tool_get_scholar_profile("Yann LeCun", "NYU")
+
+# Get author papers (Semantic Scholar)
+from semantic_scholar.semantic_scholar_tools import tool_get_author_papers
+result = tool_get_author_papers("1741101", num_results=20)
+```
+
+## Comparison Matrix
+
+| Feature | arXiv | Google Scholar | Semantic Scholar | CrossRef |
+|---------|-------|----------------|------------------|----------|
+| **Database Size** | 2M+ | 400M+ | 200M+ | 140M+ |
+| **API Key Required** | No | No | No | No |
+| **Rate Limit** | 3s delay | Strict | 100/5min | 50/sec |
+| **Citation Graph** | No | Limited | Yes | Limited |
+| **Author Metrics** | No | Yes | Yes | No |
+| **Full Text** | Yes | Sometimes | Sometimes | No |
+| **Preprints** | Yes | Yes | Yes | Some |
+| **Official API** | Yes | No | Yes | Yes |
+
+## Common Workflows
+
+### Literature Review
+
+1. **Search** multiple sources for comprehensive coverage
+2. **Deduplicate** results using DOIs
+3. **Filter** by year, venue, or citations
+4. **Export** to Zotero for management
+
+```python
+# Search multiple sources
+arxiv_results = tool_search_arxiv("quantum computing", max_results=20)
+s2_results = tool_search_semantic_scholar("quantum computing", num_results=20)
+crossref_results = tool_search_crossref("quantum computing", num_results=20)
+
+# Combine and deduplicate by DOI
+all_papers = {}
+for paper in arxiv_results['papers'] + s2_results['papers'] + crossref_results['works']:
+    doi = paper.get('doi') or paper.get('externalIds', {}).get('DOI')
+    if doi and doi not in all_papers:
+        all_papers[doi] = paper
+```
+
+### Citation Analysis
+
+1. **Find** a seminal paper
+2. **Get** its citations and references
+3. **Analyze** citation network
+4. **Identify** influential papers
+
+```python
+# Get paper details
+paper = tool_get_paper_details("DOI:10.1038/nature14539")
+
+# Get citations
+citations = tool_get_paper_citations("DOI:10.1038/nature14539", num_results=100)
+
+# Get references
+references = tool_get_paper_references("DOI:10.1038/nature14539", num_results=100)
+
+# Analyze most cited references
+ref_citations = [(r['title'], r['citationCount']) for r in references['references']]
+ref_citations.sort(key=lambda x: x[1], reverse=True)
+```
+
+### Author Impact Analysis
+
+1. **Search** for author
+2. **Get** author metrics
+3. **Analyze** publication history
+4. **Compare** with peers
+
+```python
+# Search for author
+authors = tool_search_authors("Geoffrey Hinton")
+author_id = authors['authors'][0]['authorId']
+
+# Get author details
+details = tool_get_author_details(author_id)
+print(f"h-index: {details['author']['hIndex']}")
+print(f"Citations: {details['author']['citationCount']}")
+
+# Get author papers
+papers = tool_get_author_papers(author_id, num_results=100)
 ```
 
 ## Configuration
 
 ### Environment Variables
 
-Create a `.env` file in this directory with your API credentials. See `.env.example` for a complete template.
+Create a `.env` file in the bibliography directory:
 
-#### Required for Zotero Remote Access
+```bash
+# Optional: Zotero API (for cloud sync)
+ZOTERO_API_KEY=your_api_key_here
+ZOTERO_USER_ID=your_user_id_here
 
-| Variable | Description | How to Obtain |
-|----------|-------------|---------------|
-| `ZOTERO_API_KEY` | Your Zotero API key | https://www.zotero.org/settings/keys |
-| `ZOTERO_USER_ID` | Your Zotero user ID | Displayed on API keys page |
-| `ZOTERO_LIBRARY_TYPE` | `user` or `group` | Your preference |
-| `ZOTERO_GROUP_ID` | Group ID (if using group library) | From group URL |
-
-#### Optional for Enhanced Features
-
-| Variable | Description | Service |
-|----------|-------------|---------|
-| `CROSSREF_API_KEY` | Higher rate limits | Crossref |
-| `CROSSREF_MAILTO` | Your email for polite pool | Crossref |
-| `SEMANTIC_SCHOLAR_API_KEY` | Higher rate limits | Semantic Scholar |
-| `OPENALEX_MAILTO` | Your email for polite pool | OpenAlex |
-| `PUBMED_API_KEY` | NCBI E-utilities access | PubMed |
-| `PUBMED_EMAIL` | Your email | PubMed |
-
-#### General Settings
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `BIBLIOGRAPHY_DOWNLOAD_DIR` | `./downloads` | Default download directory |
-| `BIBLIOGRAPHY_DEFAULT_CITATION_FORMAT` | `bibtex` | Default citation format |
-| `BIBLIOGRAPHY_REQUEST_TIMEOUT` | `30` | Request timeout in seconds |
-| `BIBLIOGRAPHY_DEBUG` | `false` | Enable debug logging |
-
-### Example .env File
-
-```env
-# Zotero (required for remote access)
-ZOTERO_API_KEY=abc123def456ghi789
-ZOTERO_USER_ID=12345678
-ZOTERO_LIBRARY_TYPE=user
-
-# Crossref (optional)
-CROSSREF_MAILTO=researcher@university.edu
-
-# General
-BIBLIOGRAPHY_DOWNLOAD_DIR=./papers
-BIBLIOGRAPHY_DEFAULT_CITATION_FORMAT=bibtex
+# Optional: Email for CrossRef polite pool
+CROSSREF_EMAIL=your.email@example.com
 ```
 
-## Features by Toolset
+See [.env.example](.env.example) for a template.
 
-### arXiv Tools
+### Rate Limiting
 
-- **Free & Open**: No API key required
-- **Comprehensive Search**: Query by keywords, authors, categories, dates
-- **PDF Download**: Retrieve full-text papers
-- **Metadata Extraction**: Title, authors, abstract, categories, dates
-- **Category Browsing**: Explore by arXiv subject categories
+All toolsets include automatic rate limiting:
+- **arXiv**: 3 seconds between requests (API requirement)
+- **Google Scholar**: 1 second between requests (recommended)
+- **Semantic Scholar**: 100ms between requests (100 req/5min)
+- **CrossRef**: 50ms between requests (polite pool)
 
-[Full arXiv Documentation →](arxiv/README.md)
+## Best Practices
 
-### DOI Tools
-
-- **DOI Resolution**: Get metadata from any DOI
-- **Crossref Search**: Search millions of publications
-- **Citation Generation**: BibTeX, APA, MLA, Chicago, Harvard
-- **DOI Validation**: Verify DOI authenticity
-- **Batch Processing**: Handle multiple DOIs efficiently
-
-[Full DOI Documentation →](doi/README.md)
-
-### Zotero Tools
-
-- **Dual Mode**: Local database or remote Web API
-- **Full CRUD**: Create, read, update, delete references
-- **Collection Management**: Organize your library
-- **File Attachments**: Download PDFs and files
-- **Citation Export**: Multiple formats supported
-- **Group Libraries**: Collaborate with teams
-
-[Full Zotero Documentation →](zotero/README.md)
-
-## Common Workflows
-
-### Literature Review
-
-```python
-# 1. Search arXiv for recent papers
-from arxiv.arxiv_tools import search_arxiv
-papers = search_arxiv("transformer models", max_results=20)
-
-# 2. Download interesting papers
-from arxiv.arxiv_tools import download_arxiv_paper
-for paper in papers[:5]:
-    download_arxiv_paper(paper['arxiv_id'], "./review_papers")
-
-# 3. Add to Zotero for organization
-from zotero.zotero_tools import ZoteroRemote
-zotero = ZoteroRemote(api_key="...", user_id="...")
-for paper in papers:
-    zotero.create_item({
-        "itemType": "preprint",
-        "title": paper['title'],
-        "creators": [{"creatorType": "author", "name": a} for a in paper['authors']],
-        "url": paper['url']
-    })
-```
-
-### Citation Generation
-
-```python
-# Generate citations from DOIs
-from doi.doi_tools import generate_citation, batch_resolve_dois
-
-dois = ["10.1038/nature12373", "10.1126/science.1234567"]
-metadata_list = batch_resolve_dois(dois)
-
-for doi, metadata in metadata_list.items():
-    bibtex = generate_citation(doi, format="bibtex")
-    print(bibtex)
-```
-
-### Reference Management
-
-```python
-# Sync arXiv papers to Zotero
-from arxiv.arxiv_tools import get_arxiv_metadata
-from zotero.zotero_tools import ZoteroRemote
-
-zotero = ZoteroRemote(api_key="...", user_id="...")
-
-arxiv_ids = ["2301.00001", "2301.00002", "2301.00003"]
-for arxiv_id in arxiv_ids:
-    metadata = get_arxiv_metadata(arxiv_id)
-    zotero.create_item({
-        "itemType": "preprint",
-        "title": metadata['title'],
-        "creators": [{"creatorType": "author", "name": a} for a in metadata['authors']],
-        "date": metadata['published'],
-        "url": f"https://arxiv.org/abs/{arxiv_id}",
-        "extra": f"arXiv:{arxiv_id}"
-    })
-```
-
-## Rate Limits
-
-| Service | Rate Limit | Notes |
-|---------|------------|-------|
-| arXiv | 1 request / 3 seconds | Automatic throttling included |
-| Crossref (no key) | 50 req/sec (shared) | Use `CROSSREF_MAILTO` for better service |
-| Crossref (with key) | Varies | Based on your agreement |
-| Zotero Web API | 100 req / 10 sec | Per API key |
-| Zotero Local | Unlimited | Local database access |
+1. **Use Multiple Sources**: Different databases have different coverage
+2. **Deduplicate Results**: Use DOIs to avoid duplicates
+3. **Cache Metadata**: DOIs are permanent, cache results
+4. **Respect Rate Limits**: Built-in rate limiting helps
+5. **Use Official APIs**: Prefer Semantic Scholar and CrossRef over Google Scholar scraping
 
 ## Error Handling
 
-All tools include robust error handling:
-
-- **Network failures**: Automatic retry with exponential backoff
-- **Rate limiting**: Built-in delays and retry logic
-- **Invalid inputs**: Clear error messages with suggestions
-- **Missing credentials**: Graceful degradation to free tiers
-- **API errors**: Detailed error reporting
-
-## Integration with Lollms
-
-This toolset follows the Lollms Communication Protocol (LCP) standards:
+All tools return a dictionary with `success` field:
 
 ```python
-def init_tools_library():
-    """Initialize the bibliography tools library."""
-    # Lazy initialization - heavy imports happen here
-    import arxiv
-    import requests
-    from pyzotero import zotero
-    from habanero import Crossref
-    return True
+result = tool_search_arxiv("quantum computing")
+if result['success']:
+    papers = result['papers']
+else:
+    print(f"Error: {result['error']}")
 ```
 
-### Key LCP Features
+## Dependencies
 
-- **Lazy Loading**: Dependencies loaded only when tools are first invoked
-- **Health Gates**: Failed initialization returns clear error to LLM
-- **Module Caching**: Validated modules cached for performance
-- **AST Discovery**: Tools discovered without importing modules
+- `requests` - HTTP library for API calls
+- `feedparser` - RSS/Atom feed parsing (arXiv)
+- `python-dotenv` - Environment variable management (optional)
 
-## Security Best Practices
+## Installation
 
-1. **Never commit `.env`**: The `.env` file is in `.gitignore`
-2. **Use environment variables**: Never hardcode API keys
-3. **Rotate keys regularly**: Update API keys periodically
-4. **Limit permissions**: Only grant necessary API permissions
-5. **Secure storage**: Use secure vaults for production deployments
-
-## Troubleshooting
-
-### Common Issues
-
-**"API key invalid"**
-- Verify your API key is correct
-- Check that the key has necessary permissions
-- Ensure no extra whitespace in `.env` file
-
-**"Rate limit exceeded"**
-- Add delays between requests
-- Register for API keys for higher limits
-- Use batch operations where possible
-
-**"Module not found"**
-- Install required dependencies: `pip install -r requirements.txt`
-- Check that `init_tools_library()` is properly defined
-
-**"Database locked" (Zotero Local)**
-- Close Zotero application
-- Wait a few seconds and retry
-- Check file permissions
+```bash
+pip install requests feedparser python-dotenv
+```
 
 ## Contributing
 
-To add new bibliography tools:
+To add a new bibliography toolset:
 
-1. Create a new subfolder for the toolset
-2. Include `init_tools_library()` function
-3. Add comprehensive README.md
-4. Update this main README.md
-5. Add configuration to `.env.example` if needed
+1. Create a new directory under `tools/bibliography/`
+2. Implement tools with `tool_` prefix
+3. Add `init_tools_library()` function
+4. Add `__tools__` metadata list
+5. Create comprehensive README.md
+6. Update this README with the new toolset
 
 ## License
 
-This toolset is part of the lollms_tools_zoo project. See the main LICENSE file for details.
+See main project LICENSE file.
 
-## References
+## See Also
 
-- [arXiv API](https://arxiv.org/help/api)
-- [Crossref REST API](https://www.crossref.org/documentation/retrieve-metadata/rest-api/)
-- [Zotero Web API](https://www.zotero.org/support/dev/web_api/v3/start)
-- [Semantic Scholar API](https://www.semanticscholar.org/product/api)
-- [OpenAlex Documentation](https://docs.openalex.org/)
-- [NCBI E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/)
+- [LCP Documentation](../../doc/README.md) - LCP protocol details
+- [Math Tools](../math/README.md) - Mathematical calculations
+- [Text Processing Tools](../text_processing/README.md) - Text analysis
