@@ -1,5 +1,9 @@
 # Lollms Tools Zoo
 
+<p align="center">
+  <img src="icon.png" alt="LCP Tools Icon" width="200"/>
+</p>
+
 [![License](https://img.shields.io/github/license/ParisNeo/lollms_tools_zoo)](LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/downloads/)
 [![GitHub Stars](https://img.shields.io/github/stars/ParisNeo/lollms_tools_zoo.svg?style=social&label=Star)](https://github.com/ParisNeo/lollms_tools_zoo/stargazers)
