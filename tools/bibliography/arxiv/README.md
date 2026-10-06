@@ -1,3 +1,9 @@
+---
+name:  arXiv Tools
+version: 1.0
+author: ParisNeo
+description: A set of LCP compatible arXiv Tools for bibliography gathering from the arxiv library
+---
 # arXiv Tools
 
 A comprehensive toolset for searching, downloading, and organizing academic papers from arXiv.org.
